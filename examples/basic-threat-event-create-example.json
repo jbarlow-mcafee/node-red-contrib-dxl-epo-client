@@ -1,35 +1,35 @@
 [
     {
-        "id": "846544ca.61a3d8",
+        "id": "77eb7ebd.edebf",
         "type": "tab",
         "label": "ePO Create Threat Event Example",
         "disabled": false,
-        "info": "This sample invokes and displays the results of a\n`DxlBrokerMgmt.createEpoThreatEvent` remote command via the ePO DXL service.\nThe results of the event creation command are displayed on the Node-RED `debug`\ntab.\n\n### Prerequisites\n\n* The samples configuration step has been completed (see\n  [Client Configuration](https://opendxl.github.io/node-red-contrib-dxl/jsdoc/tutorial-configuration.html)).\n* A ePO DXL service is running and available on the DXL fabric. If version 5.0\n  or later of the DXL ePO extensions are installed on your ePO server, an ePO\n  DXL service should already be running on the fabric. If you are using an\n  earlier version of the DXL ePO extensions, you can use the\n  [ePO DXL Python Service](https://github.com/opendxl/opendxl-epo-service-python).\n* The DXL client associated with the `Create threat event in ePO` node is\n  authorized to invoke the ePO DXL service, and the user that is connecting to\n  the ePO server (within the ePO DXL service) has permission to execute the\n  `DxlBrokerMgmt.createEpoThreatEvent` remote command (see\n  [Client Authorization](https://opendxl.github.io/opendxl-epo-client-python/pydoc/authorization.html)).\n\n### Setup\n\n* If more than one ePO service is available on the DXL fabric that the DXL\n  client is connecting to, edit the `Create threat event in ePO` node and set the\n  `ePO Id` property to that of the ePO service through which the remote command\n  should be performed. By default, the `ePO Id` property is empty, in which case\n  the client attempts to dynamically determine the id of the ePO service to\n  communicate with.\n* Edit the `Set threat event parameters` node and modify the `msg.ip4Address`\n  and `msg.agentGuid` properties with the value of an IPv4 address and McAfee\n  agent GUID for the threat event to be created. Note that the value for the\n  `msg.agentGuid` property must be that of a valid McAfee agent previously seen\n  by the ePO server in order for the event to be created properly.\n* Modify the content in the `Format full ePO threat event` template node with\n  appropriate information for the type of event to be created.\n* To deploy the flow, press the `Deploy` button in the upper-right corner of the\n  screen. If Node-RED is able to properly connect to the DXL fabric, a green dot\n  with the word `connected` should appear under the `Create threat event in ePO`\n  node.\n\n### Running\n\nTo exercise the flow, double-click the button on the left side of the\n`Inject current timestamp` node.\n\n### Output\n\nAn entry similar to the following should appear in the `debug` tab for the\n`Output event` node:\n\n```\n▶ { eventMsgType: \"McAfee Common Event\", eventMsgVersion: \"1.0\", event: object }\n```\n\nAfter clicking on the right arrow button to expand the contents of the object,\noutput similar to the following should appear:\n\n```\n▼ object\n  eventMsgType: \"McAfee Common Event\"\n  eventMsgVersion: \"1.0\"\n  ▼ event: object\n    category: \"This is the event category\"\n    ...\n    ▼ source: object\n      ipv4: \"10.0.0.254\"\n...\n```\n\nOn successful creation of an event, a message similar to the following should\nappear in the `debug` tab for the `Output result` node:\n\n```\n\"Successfully created new ePO Threat Event for AgentGuid:'12345678-9012-3456-7890-12345678ABCD'\"\n```\n\n### Details\n\nThe flow exercises the nodes below.\n\n#### Inject current timestamp\n\nThis is an `inject` input node which starts the flow. This node injects a new\nmessage with a `payload` property which specifies the current system timestamp\n(as a numeric value representing milliseconds since January 1, 1970).\n\n#### Set threat event parameters\n\nThis is a `change` node which sets values for the `ipv4Address` and `agentGuid`\nproperties on the message. The `Format full ePO threat event` template node\nuses these values when formatting the content of the full threat event payload.\n\n#### Get current date as ISO string\n\nThis is a `function` node which uses the value from the timestamp `payload`\ninjected by the `Inject current timestamp` node to set a `currentDate` message\nproperty with the timestamp value formatted as an ISO string. The\n`Format full ePO threat event` template node uses this value when formatting the\ncontent of the full threat event payload.\n\n#### Format full ePO threat event\n\nThis is a `template` node which constructs the full threat event payload to\nsend to the ePO server. The node produces a payload which conforms to the\n\"McAfee Common Event\" format. The payload is stored as a JavaScript object to\nthe `event` property on the message.\n\n#### Output event\n\nThis is a `debug` output node. This node outputs the contents of the `event`\nproperty set on the message by the `Format full ePO threat event` node.\n\n#### Create threat event in ePO\n\nThis is an `epo threat event create` node. This node connects to the DXL fabric\nand sends a DXL `Request` message to the ePO service. The message specifies the\ntarget remote command as `DxlBrokerMgmt.createEpoThreatEvent`.\n\nThe request message also includes the `msg.event` property set by the\n`Format full ePO threat event` node.\n \nThe `Return` property is set to \"a parsed JSON object\" and the `Format` property\nis set to \"JSON\" to indicate that the payload for the response should be\nadded to the output message as a JavaScript object decoded from JSON.\n\n#### Output result\n\nThis is a `debug` output node. This node outputs the `payload` set on\nthe message by the `Create threat event in ePO` node. The output should include\nthe response received from the DXL fabric for the\n`DxlBrokerMgmt.createEpoThreatEvent` command."
+        "info": "This sample invokes and displays the results of a\n`DxlBrokerMgmt.createEpoThreatEvent` remote command via the ePO DXL service.\nThe results of the event creation command are displayed on the Node-RED `debug`\ntab.\n\n### Prerequisites\n\n* The samples configuration step has been completed (see\n  [Client Configuration](https://opendxl.github.io/node-red-contrib-dxl/jsdoc/tutorial-configuration.html)).\n* A ePO DXL service is running and available on the DXL fabric. If version 5.0\n  or later of the DXL ePO extensions are installed on your ePO server, an ePO\n  DXL service should already be running on the fabric. If you are using an\n  earlier version of the DXL ePO extensions, you can use the\n  [ePO DXL Python Service](https://github.com/opendxl/opendxl-epo-service-python).\n* The DXL client associated with the `Create threat event in ePO` node is\n  authorized to invoke the ePO DXL service, and the user that is connecting to\n  the ePO server (within the ePO DXL service) has permission to execute the\n  `DxlBrokerMgmt.createEpoThreatEvent` remote command (see\n  [Client Authorization](https://opendxl.github.io/opendxl-epo-client-python/pydoc/authorization.html)).\n\n### Setup\n\n* If more than one ePO service is available on the DXL fabric that the DXL\n  client is connecting to, edit the `Create threat event in ePO` node and set the\n  `ePO Id` property to that of the ePO service through which the remote command\n  should be performed. By default, the `ePO Id` property is empty, in which case\n  the client attempts to dynamically determine the id of the ePO service to\n  communicate with.\n* Edit the `Set threat event parameters` node and modify either (or both) of the\n  `msg.ip4Address` or `msg.macAddress` properties with values for the host\n  which is the source for the threat. Note that these properties need to be\n  set with values for a system which is being managed by the ePO server. The\n  `msg.hostName` property can also optionally be set to the host name of the\n  system which is the source for the threat.\n* Modify the content in the `Format full ePO threat event` template node with\n  appropriate information for the type of event to be created.\n* To deploy the flow, press the `Deploy` button in the upper-right corner of the\n  screen. If Node-RED is able to properly connect to the DXL fabric, a green dot\n  with the word `connected` should appear under the `Create threat event in ePO`\n  node.\n\n### Running\n\nTo exercise the flow, double-click the button on the left side of the\n`Inject current timestamp` node.\n\n### Output\n\nAn entry similar to the following should appear in the `debug` tab for the\n`Output event` node:\n\n```\n▶ { eventMsgType: \"McAfee Common Event\", eventMsgVersion: \"1.0\", event: object }\n```\n\nAfter clicking on the right arrow button to expand the contents of the object,\noutput similar to the following should appear:\n\n```\n▼ object\n  eventMsgType: \"McAfee Common Event\"\n  eventMsgVersion: \"1.0\"\n  ▼ event: object\n    category: \"This is the event category\"\n    ...\n    ▼ source: object\n      ipv4: \"10.0.0.254\"\n...\n```\n\nOn successful creation of an event, a message similar to the following should\nappear in the `debug` tab for the `Output result` node:\n\n```\n\"Successfully created new ePO Threat Event for AgentGuid:'12345678-9012-3456-7890-12345678ABCD'\"\n```\n\n### Details\n\nThe flow exercises the nodes below.\n\n#### Inject current timestamp\n\nThis is an `inject` input node which starts the flow. This node injects a new\nmessage with a `payload` property which specifies the current system timestamp\n(as a numeric value representing milliseconds since January 1, 1970).\n\n#### Set threat event parameters\n\nThis is a `change` node which sets values for the `ipv4Address`, `macAddress`,\nand `hostName` properties on the message. The `Format full ePO threat event`\ntemplate node uses these values when formatting the content of the full threat\nevent payload.\n\n#### Get current date as ISO string\n\nThis is a `function` node which uses the value from the timestamp `payload`\ninjected by the `Inject current timestamp` node to set a `currentDate` message\nproperty with the timestamp value formatted as an ISO string. The\n`Format full ePO threat event` template node uses this value when formatting the\ncontent of the full threat event payload.\n\n#### Format full ePO threat event\n\nThis is a `template` node which constructs the full threat event payload to\nsend to the ePO server. The node produces a payload which conforms to the\n\"McAfee Common Event\" format. The payload is stored as a JavaScript object to\nthe `event` property on the message.\n\n#### Output event\n\nThis is a `debug` output node. This node outputs the contents of the `event`\nproperty set on the message by the `Format full ePO threat event` node.\n\n#### Create threat event in ePO\n\nThis is an `epo threat event create` node. This node connects to the DXL fabric\nand sends a DXL `Request` message to the ePO service. The message specifies the\ntarget remote command as `DxlBrokerMgmt.createEpoThreatEvent`.\n\nThe request message also includes the `msg.event` property set by the\n`Format full ePO threat event` node.\n \nThe `Return` property is set to \"a parsed JSON object\" and the `Format` property\nis set to \"JSON\" to indicate that the payload for the response should be\nadded to the output message as a JavaScript object decoded from JSON.\n\n#### Output result\n\nThis is a `debug` output node. This node outputs the `payload` set on\nthe message by the `Create threat event in ePO` node. The output should include\nthe response received from the DXL fabric for the\n`DxlBrokerMgmt.createEpoThreatEvent` command."
     },
     {
-        "id": "ad323fc.6e6a3c",
+        "id": "e6244f3d.4731a",
         "type": "template",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Format full ePO threat event",
         "field": "event",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n  \"eventMsgType\": \"McAfee Common Event\",\n  \"eventMsgVersion\": \"1.0\",\n  \"event\": {\n    \"category\": \"This is the event category\",\n    \"eventDesc\": \"This is the event description\",\n    \"threatActionTaken\": \"blocked\",\n    \"threatHandled\": 1,\n    \"threatName\": \"This is the threat name\",\n    \"threatSeverity\": 1,\n    \"threatType\": \"This is the threat type\",\n    \"analyzer\": {\n      \"detectionMethod\": \"This is the detection method\",\n      \"detectedUTC\": \"{{currentDate}}\",\n      \"id\": \"MY_ANALYZER_0123\",\n      \"name\": \"My Analyzer\",\n      \"version\": \"1.2.3\"\n    },\n    \"entity\": {     \n      \"id\": \"{{agentGuid}}\" \n    },\n    \"source\": {\n      \"ipv4\": \"{{ipv4Address}}\",\n      \"mac\": \"\"\n    },\n    \"target\": {\n\t  \"ipv4\": \"{{ipv4Address}}\",\n\t  \"mac\": \"\",\n\t  \"port\": 0\n\t}\n  }\n}",
+        "template": "{\n  \"eventMsgType\": \"McAfee Common Event\",\n  \"eventMsgVersion\": \"1.0\",\n  \"event\": {\n    \"category\": \"This is the event category\",\n    \"eventDesc\": \"This is the event description\",\n    \"threatActionTaken\": \"blocked\",\n    \"threatHandled\": 1,\n    \"threatName\": \"This is the threat name\",\n    \"threatSeverity\": 1,\n    \"threatType\": \"This is the threat type\",\n    \"analyzer\": {\n      \"detectionMethod\": \"This is the detection method\",\n      \"detectedUTC\": \"{{currentDate}}\",\n      \"id\": \"MY_ANALYZER_0123\",\n      \"name\": \"My Analyzer\",\n      \"version\": \"1.2.3\"\n    },\n    \"source\": {\n      \"hostName\": \"{{hostName}}\",\n      \"ipv4\": \"{{ipv4Address}}\",\n      \"mac\": \"{{macAddress}}\"\n    }\n  }\n}",
         "output": "json",
         "x": 200,
         "y": 300,
         "wires": [
             [
-                "3184b68f.8f838a",
-                "e1fe3ec5.cb386"
+                "66721f29.133c1",
+                "a97d51e4.a145c"
             ]
         ]
     },
     {
-        "id": "bec2456f.ff5c38",
+        "id": "27c53970.05e156",
         "type": "inject",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Inject current timestamp",
         "topic": "",
         "payload": "",
@@ -42,24 +42,24 @@
         "y": 40,
         "wires": [
             [
-                "d9d2b88d.faa6c8"
+                "43758869.68c938"
             ]
         ]
     },
     {
-        "id": "a4609a17.137d68",
+        "id": "301786dd.a2cf8a",
         "type": "comment",
-        "z": "846544ca.61a3d8",
-        "name": "Set the IP address and agent GUID for the event",
+        "z": "77eb7ebd.edebf",
+        "name": "Set either IP address or MAC address for a system managed by the ePO server",
         "info": "",
-        "x": 560,
+        "x": 660,
         "y": 120,
         "wires": []
     },
     {
-        "id": "3184b68f.8f838a",
+        "id": "66721f29.133c1",
         "type": "dxl-epo-threat-event-create",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "",
         "client": "",
         "searchNameOnly": "",
@@ -69,14 +69,14 @@
         "y": 400,
         "wires": [
             [
-                "55bb8c32.6bd154"
+                "b78b4ac6.696de8"
             ]
         ]
     },
     {
-        "id": "55bb8c32.6bd154",
+        "id": "b78b4ac6.696de8",
         "type": "debug",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Output result",
         "active": true,
         "tosidebar": true,
@@ -88,23 +88,30 @@
         "wires": []
     },
     {
-        "id": "d9d2b88d.faa6c8",
+        "id": "43758869.68c938",
         "type": "change",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Set threat event parameters",
         "rules": [
             {
                 "t": "set",
                 "p": "ipv4Address",
                 "pt": "msg",
-                "to": "10.0.0.254",
+                "to": "",
                 "tot": "str"
             },
             {
                 "t": "set",
-                "p": "agentGuid",
+                "p": "macAddress",
                 "pt": "msg",
-                "to": "12345678-9012-3456-7890-12345678ABCD",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "hostName",
+                "pt": "msg",
+                "to": "",
                 "tot": "str"
             }
         ],
@@ -117,14 +124,14 @@
         "y": 120,
         "wires": [
             [
-                "dc7066e7.381008"
+                "f805bf2b.ff463"
             ]
         ]
     },
     {
-        "id": "dc7066e7.381008",
+        "id": "f805bf2b.ff463",
         "type": "function",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Get current date as ISO string",
         "func": "msg.currentDate = new Date(msg.payload).toISOString()\nreturn msg",
         "outputs": 1,
@@ -133,14 +140,14 @@
         "y": 200,
         "wires": [
             [
-                "ad323fc.6e6a3c"
+                "e6244f3d.4731a"
             ]
         ]
     },
     {
-        "id": "627d1ebd.0518f",
+        "id": "704cc0b6.06cae",
         "type": "comment",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Fill in event details (e.g., data for a host intrusion detection)",
         "info": "",
         "x": 590,
@@ -148,9 +155,9 @@
         "wires": []
     },
     {
-        "id": "e1fe3ec5.cb386",
+        "id": "a97d51e4.a145c",
         "type": "debug",
-        "z": "846544ca.61a3d8",
+        "z": "77eb7ebd.edebf",
         "name": "Output event",
         "active": true,
         "tosidebar": true,
